@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoramento de Umidade e Temperatura - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark': '#254021',
+                        'primary-medium': '#335918',
+                        'primary': '#5F8C1B',
+                        'accent': '#F2CF63',
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="page-bg p-6 flex items-center justify-center min-h-screen">
+    <div class="dashboard-container container max-w-6xl w-full space-y-6">
+        <!-- Header com logo e título -->
+    <div class="flex justify-between items-center">
+    <!-- Logo + título alinhados -->
+    <div class="flex items-center space-x-4">
+        <div class="w-16 h-16 rounded-full overflow-hidden border border-gray-200 bg-white flex items-center justify-center shadow-sm">
+        <img src="assets/logo-silo.jpeg" alt="Agrigrowth Logo" class="w-full h-full object-cover" />
+        </div>
+        <div>
+        <h1 class="text-4xl font-bold text-primary-dark">Dashboard de Monitoramento</h1>
+        <p class="text-xl text-gray-600">Umidade e Temperatura do Silo</p>
+        </div>
+    </div>
+
+    <!-- Botão sair -->
+    <button id="logout-btn" 
+        class="bg-primary-medium text-white font-medium py-2 px-4 rounded-lg hover:bg-primary-dark transition-colors duration-300 text-sm shadow">
+        Sair
+    </button>
+    </div>
+
+
+        <!-- Filtros -->
+        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+            <h2 class="text-2xl font-semibold text-primary-dark mb-4"> Filtros</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-primary-dark mb-2">Máximo de Registros</label>
+                    <select id="limit-select" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary">
+                        <option value="50">50 registros</option>
+                        <option value="100" selected>100 registros</option>
+                        <option value="200">200 registros</option>
+                        <option value="500">500 registros</option>
+                        <option value="1000">1000 registros</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-primary-dark mb-2">Data Inicial</label>
+                    <input type="datetime-local" id="start-date" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-primary-dark mb-2">Data Final</label>
+                    <input type="datetime-local" id="end-date" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary">
+                </div>
+            </div>
+            <div class="mt-4 flex gap-2">
+                <button id="apply-filters" class="bg-primary text-white font-medium py-2 px-6 rounded-lg hover:bg-primary-medium transition-colors duration-300">
+                    Aplicar Filtros
+                </button>
+                <button id="reset-filters" class="bg-gray-500 text-white font-medium py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors duration-300">
+                    Limpar Filtros
+                </button>
+                <button id="refresh-btn" class="bg-accent text-primary-dark font-medium py-2 px-6 rounded-lg hover:bg-accent/80 transition-colors duration-300">
+                    Atualizar Dados
+                </button>
+            </div>
+        </div>
+
+        <!-- Estatísticas -->
+        <div id="stats-container" class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+            <h2 class="text-2xl font-semibold text-primary-dark mb-4"> Estatísticas</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-primary/10 p-4 rounded-lg border border-primary/20">
+                    <p class="text-sm text-primary font-medium">Total de Registros</p>
+                    <p id="total-records" class="text-2xl font-bold text-primary">0</p>
+                </div>
+                <div class="bg-accent/10 p-4 rounded-lg border border-accent/20">
+                    <p class="text-sm text-accent font-medium">Umidade Média</p>
+                    <p id="avg-humidity" class="text-2xl font-bold text-accent">0%</p>
+                </div>
+                <div class="bg-primary-medium/10 p-4 rounded-lg border border-primary-medium/20">
+                    <p class="text-sm text-primary-medium font-medium">Temperatura Média</p>
+                    <p id="avg-temperature" class="text-2xl font-bold text-primary-medium">0°C</p>
+                </div>
+                <div class="bg-primary-dark/10 p-4 rounded-lg border border-primary-dark/20">
+                    <p class="text-sm text-primary-dark font-medium">Período</p>
+                    <p id="period-range" class="text-lg font-bold text-primary-dark">-</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfico -->
+        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-semibold text-primary-dark"> Gráfico de Dados</h2>
+                <div class="flex gap-2">
+                    <button id="export-chart" class="bg-primary text-white font-medium py-2 px-4 rounded-lg hover:bg-primary-medium transition-colors duration-300 text-sm">
+                        Exportar Gráfico
+                    </button>
+                </div>
+            </div>
+            <div id="loading-chart" class="text-center text-gray-500 italic py-8">Carregando dados do MongoDB...</div>
+            <div class="relative h-96">
+                <canvas id="myChart"></canvas>
+            </div>
+            <p id="error-chart" class="hidden text-center text-red-500 font-medium mt-4">Erro ao carregar os dados.</p>
+        </div>
+
+        <!-- Tabela -->
+        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-semibold text-primary-dark"> Tabela de Dados</h2>
+                <div class="flex gap-2">
+                    <button id="export-csv" class="bg-accent text-primary-dark font-medium py-2 px-4 rounded-lg hover:bg-accent/80 transition-colors duration-300 text-sm">
+                        Exportar CSV
+                    </button>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table id="data-table" class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Data/Hora</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Umidade (%)</th>
+                            <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Temperatura (°C)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr id="loading-table">
+                            <td colspan="3" class="px-6 py-4 whitespace-nowrap text-center text-sm italic text-gray-500">Carregando tabela...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="pagination" class="mt-4 flex items-center justify-between hidden">
+                <div class="text-sm text-gray-700">
+                    Mostrando <span id="showing-from">0</span> a <span id="showing-to">0</span> de <span id="total-items">0</span> registros
+                </div>
+                <div class="flex gap-2">
+                    <button id="prev-page" class="px-3 py-1 border border-gray-300 rounded-md text-sm disabled:opacity-50">Anterior</button>
+                    <span id="page-info" class="px-3 py-1 text-sm">Página 1</span>
+                    <button id="next-page" class="px-3 py-1 border border-gray-300 rounded-md text-sm disabled:opacity-50">Próxima</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+/* styles.css - atualizado com logo e fundo Agrigrowth */
+
+:root {
+    --primary-dark: #254021;
+    --primary-medium: #335918;
+    --primary: #5F8C1B;
+    --accent: #F2CF63;
+}
+
+
+/* ===== Fundo com imagem dos silos ===== */
+body.page-bg {
+  background-image: url('./assets/silos.jpeg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  position: relative;
+  font-family: 'Inter', sans-serif !important;
+  background-attachment: fixed; 
+  z-index: 0;
+}
+
+body.page-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.88);
+  z-index: 0;
+}
+
+body.page-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* ====== LOGIN ====== */
+.login-container {
+    max-width: 28rem;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+}
+
+/* Logo circular (login) */
+.logo-circle {
+    width: 96px;
+    height: 96px;
+    border-radius: 9999px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid rgba(0,0,0,0.05);
+    background: white;
+    margin-bottom: 1rem;
+    box-shadow: 0 6px 18px rgba(15,23,42,0.06);
+}
+
+.logo-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Logo pequena (dashboard) */
+.logo-circle-sm {
+    width: 64px;
+    height: 64px;
+    border-radius: 9999px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid rgba(0,0,0,0.05);
+    background: white;
+    margin-right: 1rem;
+    box-shadow: 0 4px 10px rgba(15,23,42,0.05);
+}
+
+.logo-circle-sm img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ===== Fundo com imagem ===== */
+body.page-bg {
+  background-image: url('assets/silos.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  position: relative;
+  font-family: 'Inter', sans-serif;
+}
+
+body.page-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.85);
+  z-index: 0;
+}
+
+body.page-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Card de login com fundo verde ===== */
+.login-card {
+  background-color: #335918; /* verde médio da paleta */
+  max-width: 28rem;
+  width: 100%;
+  color: white;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  backdrop-filter: blur(6px);
+}
+
+/* Logo centralizada e circular */
+.logo-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 9999px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  border: 4px solid rgba(255,255,255,0.4);
+}
+
+.logo-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===== Formulário ===== */
+#login-form input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  transition: all 0.3s;
+  background-color: rgba(255,255,255,0.9);
+}
+
+#login-form input:focus {
+  box-shadow: 0 0 0 3px rgba(242, 207, 99, 0.4);
+}
+
+#login-form button {
+  background-color: #5F8C1B;
+}
+
+#login-form button:hover {
+  background-color: #4B7115;
+}
+
+
+/* ====== DASHBOARD HEADER ====== */
+.dashboard-header {
+    display: flex;
+    align-items: center;
+}
+
+/* ====== Botão de logout ====== */
+#logout-btn {
+    background-color: var(--primary-medium);
+    color: white;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s;
+    font-size: 0.875rem;
+}
+
+#logout-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+/* ===== Responsividade ===== */
+@media (max-width: 640px) {
+    .logo-circle { width: 80px; height: 80px; }
+    .logo-circle-sm { width: 50px; height: 50px; }
+}
