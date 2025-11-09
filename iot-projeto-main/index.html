@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login - Monitoramento</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-bg">
+
+  <div class="bg-overlay flex items-center justify-center min-h-screen p-6">
+
+    <!-- Card de login com fundo verde -->
+    <div class="login-card text-center p-8 rounded-2xl shadow-2xl border border-green-900/10 max-w-md w-full">
+      
+      <!-- Logo centralizada -->
+      <div class="flex justify-center mb-6">
+        <div class="logo-circle">
+          <img src="assets/logo-silo.jpeg" alt="AgriGrowth Logo" />
+        </div>
+      </div>
+
+      <h1 class="text-2xl font-bold text-white mb-1">Bem-vindo(a) ao Dashboard</h1>
+      <p class="text-sm text-green-100 mb-6">Faça login para acessar os dados de umidade e temperatura</p>
+
+      <form id="login-form" class="w-full">
+        <div class="mb-4 text-left">
+          <label class="block text-sm font-medium text-green-50 mb-1">Usuário</label>
+          <input id="username" type="text" required autocomplete="username"
+            class="w-full px-3 py-2 border border-green-200 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400" />
+        </div>
+
+        <div class="mb-4 text-left">
+          <label class="block text-sm font-medium text-green-50 mb-1">Senha</label>
+          <input id="password" type="password" required autocomplete="current-password"
+            class="w-full px-3 py-2 border border-green-200 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400" />
+        </div>
+
+        <div id="login-error" class="hidden text-sm text-red-200 mb-3 text-center">Usuário ou senha inválidos</div>
+
+        <button type="submit"
+          class="w-full bg-green-700 text-white py-2 rounded-md font-medium hover:bg-green-800 transition">
+          Entrar
+        </button>
+      </form>
+
+      <!-- Link para criar conta -->
+      <div class="mt-6 text-center">
+        <a href="register.html" class="text-sm text-green-100 hover:text-white underline">
+          Não tem uma conta? Crie uma aqui
+        </a>
+      </div>
+      
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

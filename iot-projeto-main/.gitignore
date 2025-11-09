@@ -1,0 +1,11 @@
+# === Variáveis de ambiente (nunca versionar!) ===
+.env
+.env.local
+.env.development
+.env.production
+
+# === Ambiente virtual Python ===
+.venv/
+venv/
+ENV/
+env/
